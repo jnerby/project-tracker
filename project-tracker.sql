@@ -21,6 +21,42 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
+-- Name: grades; Type: TABLE; Schema: public; Owner: jnerby
+--
+
+CREATE TABLE public.grades (
+    id integer NOT NULL,
+    student_github character varying(30),
+    project_title character varying(30),
+    grade integer
+);
+
+
+ALTER TABLE public.grades OWNER TO jnerby;
+
+--
+-- Name: grade_id_seq; Type: SEQUENCE; Schema: public; Owner: jnerby
+--
+
+CREATE SEQUENCE public.grade_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.grade_id_seq OWNER TO jnerby;
+
+--
+-- Name: grade_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jnerby
+--
+
+ALTER SEQUENCE public.grade_id_seq OWNED BY public.grades.id;
+
+
+--
 -- Name: projects; Type: TABLE; Schema: public; Owner: jnerby
 --
 
@@ -93,6 +129,13 @@ ALTER SEQUENCE public.students_id_seq OWNED BY public.students.id;
 
 
 --
+-- Name: grades id; Type: DEFAULT; Schema: public; Owner: jnerby
+--
+
+ALTER TABLE ONLY public.grades ALTER COLUMN id SET DEFAULT nextval('public.grade_id_seq'::regclass);
+
+
+--
 -- Name: projects id; Type: DEFAULT; Schema: public; Owner: jnerby
 --
 
@@ -104,6 +147,18 @@ ALTER TABLE ONLY public.projects ALTER COLUMN id SET DEFAULT nextval('public.pro
 --
 
 ALTER TABLE ONLY public.students ALTER COLUMN id SET DEFAULT nextval('public.students_id_seq'::regclass);
+
+
+--
+-- Data for Name: grades; Type: TABLE DATA; Schema: public; Owner: jnerby
+--
+
+COPY public.grades (id, student_github, project_title, grade) FROM stdin;
+1	jhacks	Markov	10
+2	jhacks	Blockly	80
+3	sdevelops	Blockly	80
+4	sdevelops	Markov	100
+\.
 
 
 --
@@ -129,6 +184,13 @@ COPY public.students (id, first_name, last_name, github) FROM stdin;
 
 
 --
+-- Name: grade_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jnerby
+--
+
+SELECT pg_catalog.setval('public.grade_id_seq', 4, true);
+
+
+--
 -- Name: projects_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jnerby
 --
 
@@ -140,6 +202,14 @@ SELECT pg_catalog.setval('public.projects_id_seq', 4, true);
 --
 
 SELECT pg_catalog.setval('public.students_id_seq', 2, true);
+
+
+--
+-- Name: grades grade_pkey; Type: CONSTRAINT; Schema: public; Owner: jnerby
+--
+
+ALTER TABLE ONLY public.grades
+    ADD CONSTRAINT grade_pkey PRIMARY KEY (id);
 
 
 --
